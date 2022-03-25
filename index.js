@@ -97,7 +97,7 @@ function updateGrid(grid) {
         }
     }
     // need to update a copy of grid while checking original
-    //    will prevent only removing patial groups
+    //    will prevent only removing partial groups
     // if stones were removed redraw
     if (redraw) {
         grid = gridCopy // replace grid with update
@@ -144,6 +144,7 @@ canvas.addEventListener('click', (e) => {
     ctx.fillRect(snapX - 20, snapY - 20, 41, 41)
 
     draw() // TESTING
+    // change to updateGrid() when it's ready
 
     turn++
     playing = !playing
