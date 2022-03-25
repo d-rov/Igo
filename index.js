@@ -42,5 +42,7 @@ canvas.addEventListener('click', (e) => {
     console.log(`${Math.floor(pos.x / side)}, ${Math.floor(pos.y / side)}`)
 
     ctx.fillRect(snapX - 20, snapY - 20, 41, 41)
+
+    turn++
     playing = !playing
 })
