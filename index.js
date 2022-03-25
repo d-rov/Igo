@@ -32,6 +32,47 @@ background.onload = function() {
     grid.push(extraRow)
 }
 
+function draw() {
+    // redraw squares
+    // paint the stones to the board
+}
+
+function checkLiberties(x, y) {
+    // take an X and Y pos and check if the stone has any liberties left
+    let liberties = 4 // start with 4 and remove
+    // if x is 0 or 18 remove a liberty
+    if (x == 0 || x == 18) {
+        liberties--
+    }
+    // if y is 0 or 18 remove a liberty
+    if (y == 0 || y == 18) {
+        liberties--
+    }
+    // stone has enemy next to it remove a liberty
+    // need to account for groups of stones. tricky?
+}
+
+function updateGrid(grid) {
+    let redraw = false
+    let gridCopy = grid
+    // check each stone to make sure all stones have at least one liberty
+    // if a stone has no liberties switch it to 0
+    for (let i = 0; i < grid.length; i++) {
+        for (let k = 0; k < grid.length; k++) {
+            // checkLiberties
+            // if none remove stone/group
+            // if stone removed redraw = true
+        }
+    }
+    // need to update a copy of grid while checking original
+    //    will prevent only removing patial groups
+    // if stones were removed redraw
+    if (redraw) {
+        grid = gridCopy // replace grid with update
+        draw()
+    }
+}
+
 console.log(grid)
 
 let turn = 1; // turn number
