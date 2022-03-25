@@ -1,0 +1,10 @@
+{
+  "name": "go-game",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Duncan Rover",
+  "license": "MIT",
+  "scripts": {
+    "start": "index.html"
+  }
+}
