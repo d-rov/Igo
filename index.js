@@ -13,7 +13,7 @@ background.src = "assets/kaya-wood-grain-original.jpeg"
 let grid = []
 
 background.onload = function() {
-    ctx.drawImage(background, 0, 0, 900, 900)
+    ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
     for (let i = 0; i < 18; i++) {
         let row = []
         for (let k = 0; k < 18; k++) {
@@ -33,11 +33,43 @@ background.onload = function() {
 }
 
 function draw() {
+    console.log('redraw initiated')
+    // clear the screen
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
+    // might need to redraw background
     // redraw squares
+    for (let i = 0; i < 18; i++) {
+        for (let k = 0; k < 18; k++) {
+            ctx.strokeRect(i * side + offset, k * side + offset, side, side)
+        }
+    }
     // paint the stones to the board
+    for (let i = 0; i < grid.length; i++) { // row
+        for (let k = 0; k < grid.length; k++) { // column
+            switch (grid[i][k]) {
+                case 1:
+                    // black stone
+                    ctx.fillStyle = 'black'
+                    ctx.fillRect(offset + side * k - 20, offset + side * i - 20, 41, 41)
+                    break
+                case 2:
+                    // white stone
+                    ctx.fillStyle = 'white'
+                    ctx.fillRect(offset + side * k - 20, offset + side * i - 20, 41, 41)
+                    break
+                case 0:
+                    // no stone
+            }
+        }
+    }
 }
 
 function checkLiberties(x, y) {
+    // TODO:
+    // fix the way I planned this method as it wont work for groups
+    //    groups will have more than 4 total liberties potentially
+
     // take an X and Y pos and check if the stone has any liberties left
     let liberties = 4 // start with 4 and remove
     // if x is 0 or 18 remove a liberty
@@ -110,6 +142,8 @@ canvas.addEventListener('click', (e) => {
     console.log(grid)
 
     ctx.fillRect(snapX - 20, snapY - 20, 41, 41)
+
+    draw() // TESTING
 
     turn++
     playing = !playing
