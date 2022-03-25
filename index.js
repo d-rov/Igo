@@ -7,6 +7,9 @@ const offset = 27
 const background = new Image()
 background.src = "assets/kaya-wood-grain-original.jpeg"
 
+// 0 unplayed
+// 1 black
+// 2 white
 let grid = []
 
 background.onload = function() {
