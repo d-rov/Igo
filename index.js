@@ -1,16 +1,28 @@
+/*
+
+checking liberties of groups:
+- build the groups
+- store lists of each color groups globally?
+- each group will be an object with a list of its member stones
+- can keep track of liberties so it's not necessary to calculate on the fly
+- can subtract a liberty if it gets filled, when it gets filled
+- single stones will be groups as well
+- if multiple groups contain the same member stone, merge them
+
+*/
+
 const canvas = document.getElementById('gameCanvas')
 const ctx = canvas.getContext('2d')
 
 const side = 47
 const offset = 27
 
+const grid = [] // 0 : empty, 1 : black, 2 : white
+const blackGroups = []
+const whiteGroups = []
+
 const background = new Image()
 background.src = "assets/kaya-wood-grain-original.jpeg"
-
-// 0 unplayed
-// 1 black
-// 2 white
-let grid = []
 
 background.onload = function() {
     ctx.drawImage(background, 0, 0, canvas.width, canvas.height)
@@ -71,15 +83,8 @@ function checkLiberties(x, y) {
     //    groups will have more than 4 total liberties potentially
 
     // take an X and Y pos and check if the stone has any liberties left
-    let liberties = 4 // start with 4 and remove
-    // if x is 0 or 18 remove a liberty
-    if (x == 0 || x == 18) {
-        liberties--
-    }
-    // if y is 0 or 18 remove a liberty
-    if (y == 0 || y == 18) {
-        liberties--
-    }
+    let liberties = 0 // start with 0 and add liberties
+    let color = grid[x][y]
     // stone has enemy next to it remove a liberty
     // need to account for groups of stones. tricky?
 }
@@ -92,8 +97,13 @@ function updateGrid(grid) {
     for (let i = 0; i < grid.length; i++) {
         for (let k = 0; k < grid.length; k++) {
             // checkLiberties
+            let liberties = checkLiberties(k, i)
             // if none remove stone/group
             // if stone removed redraw = true
+            if (liberties === 0) {
+                gridCopy[k][i] = 0
+                redraw = true
+            }
         }
     }
     // need to update a copy of grid while checking original
@@ -103,6 +113,31 @@ function updateGrid(grid) {
         grid = gridCopy // replace grid with update
         draw()
     }
+}
+
+function checkForNeighbors(x, y) {
+    // check if a newly placed stone has any neighbors of SAME color
+    if ( x > 0 && y > 0 && grid[x - 1][y - 1] !== 0 && grid[x][y] === grid[x - 1][y - 1]) {
+        // neighbor found
+        // mergeGroups()
+    } else if (x > 0 && y < 18 && grid[x - 1][y + 1] !== 0 && grid[x][y] === grid[x - 1][y + 1] ) {
+        // neighbor found
+        // mergeGroups()
+    } else if (x < 18 && y > 0 && grid[x + 1][y - 1] !== 0 && grid[x][y] === grid[x + 1][y - 1]) {
+        // ...
+    } else if (x < 18 && y < 18 && grid[x + 1][y + 1] !== 0 && grid[x][y] === grid[x + 1][y + 1]) {
+        // ...
+    }
+}
+
+// TODO:
+// add inWhatGroup() helper func
+
+function mergeGroups(grp1, grp2) {
+    // create a newGrp
+    // make sure newGrp contains all members of grp1 + grp2
+    // remove grp1, grp2 from group lists
+    // add newGrp to group list
 }
 
 console.log(grid)
