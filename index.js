@@ -79,61 +79,72 @@ function draw() {
 
 // this function is a mess and needs to be reworked
 // also tested
+// weird issues with this function
+// self stone is being added to enemies
+// cant get a friend to add
 function getSurrounding(stone, friends, enemies) {
-    let x, y = stone
+    let [x, y] = stone
+    console.log(stone)
+    console.log(x)
+    console.log(y)
     let color = grid[x][y]
+    console.log(color)
 
     let vrtx
     if ( x > 0 && y > 0 && grid[x - 1][y - 1] !== 0 && color === gird[x - 1][y - 1]) {
+        console.log("hello from here")
         // friend found
         vrtx = [x - 1, y - 1]
-        friends.add(vrtx)
+        friends.push(vrtx)
         // recursive call to check friends of new friend
         getSurrounding(vrtx, friends, enemies)
     }
     if (x > 0 && y < 18 && grid[x - 1][y + 1] !== 0 && color === grid[x - 1][y + 1] ) {
         // friend found
         vrtx = [x - 1, y + 1]
-        friends.add(vrtx)
+        friends.push(vrtx)
         // recursive call to check friends of new friend
         getSurrounding(vrtx, friends, enemies)
     }
     if (x < 18 && y > 0 && grid[x + 1][y - 1] !== 0 && color === grid[x + 1][y - 1]) {
         // friend found
         vrtx = [x + 1, y - 1]
-        friends.add(vrtx)
+        friends.push(vrtx)
         // recursive call to check friends of new friend
         getSurrounding(vrtx, friends, enemies)
     }
     if (x < 18 && y < 18 && grid[x + 1][y + 1] !== 0 && color === grid[x + 1][y + 1]) {
         // friend found
         vrtx = [x + 1, y + 1]
-        friends.add(vrtx)
+        friends.push(vrtx)
         // recursive call to check friends of new friend
         getSurrounding(vrtx, friends, enemies)
     }
     if ( x > 0 && y > 0 && grid[x - 1][y - 1] !== 0 && color !== gird[x - 1][y - 1]) {
         // friend found
         vrtx = [x - 1, y - 1]
-        enemies.add(vrtx)
+        enemies.push(vrtx)
     }
     if (x > 0 && y < 18 && grid[x - 1][y + 1] !== 0 && color !== grid[x - 1][y + 1] ) {
         // friend found
         vrtx = [x - 1, y + 1]
-        enemies.add(vrtx)
+        enemies.push(vrtx)
     }
     if (x < 18 && y > 0 && grid[x + 1][y - 1] !== 0 && color !== grid[x + 1][y - 1]) {
         // friend found
         vrtx = [x + 1, y - 1]
-        enemies.add(vrtx)
+        enemies.push(vrtx)
     }
     if (x < 18 && y < 18 && grid[x + 1][y + 1] !== 0 && color !== grid[x + 1][y + 1]) {
         // friend found
         vrtx = [x + 1, y + 1]
-        enemies.add(vrtx)
+        enemies.push(vrtx)
     }
 
-    return
+    console.log(friends)
+    console.log(enemies)
+
+    return [friends, enemies]
 }
 
 function checkLiberties(x, y) {
@@ -148,7 +159,7 @@ function checkLiberties(x, y) {
     let stone = [x, y]
     let color = grid[x][y] // not sure this is necessary?
 
-    getSurrounding(stone, friends, enemies)
+    [friends, enemies] = getSurrounding(stone, friends, enemies)
     // stone has enemy next to it remove a liberty
     // need to account for groups of stones. tricky?
 
@@ -221,6 +232,14 @@ canvas.addEventListener('click', (e) => {
 
     draw() // TESTING
     // change to updateGrid() when it's ready
+
+    // TESTING ----------------------------------------------------------------
+    let friends = []
+    let enemies = []
+    getSurrounding([Math.floor(pos.x / side), Math.floor(pos.y / side)], friends, enemies)
+    console.log(friends)
+    console.log(enemies)
+    // ------------------------------------------------------------------------
 
     turn++
     playing = !playing
