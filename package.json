@@ -6,5 +6,8 @@
   "license": "MIT",
   "scripts": {
     "start": "index.html"
+  },
+  "dependencies": {
+    "typescript": "^4.7.4"
   }
 }

@@ -11,13 +11,13 @@ checking liberties of groups:
 
 */
 
-const canvas = document.getElementById('gameCanvas')
+const canvas: any = document.getElementById('gameCanvas')
 const ctx = canvas.getContext('2d')
 
-const side = 47
-const offset = 27
+const side: number = 47
+const offset: number = 27
 
-const grid = [] // 0 : empty, 1 : black, 2 : white
+const grid: Array< Array<number> > = [] // 0 : empty, 1 : black, 2 : white
 const blackGroups = []
 const whiteGroups = []
 
@@ -77,7 +77,7 @@ function draw() {
     }
 }
 
-function checkLiberties(x, y) {
+function checkLiberties(x: number, y: number): number {
     // TODO:
     // fix the way I planned this method as it wont work for groups
     //    groups will have more than 4 total liberties potentially
@@ -87,6 +87,8 @@ function checkLiberties(x, y) {
     let color = grid[x][y]
     // stone has enemy next to it remove a liberty
     // need to account for groups of stones. tricky?
+
+    return liberties
 }
 
 function updateGrid(grid) {
@@ -94,10 +96,10 @@ function updateGrid(grid) {
     let gridCopy = grid
     // check each stone to make sure all stones have at least one liberty
     // if a stone has no liberties switch it to 0
-    for (let i = 0; i < grid.length; i++) {
-        for (let k = 0; k < grid.length; k++) {
+    for (let i: number = 0; i < grid.length; i++) {
+        for (let k: number = 0; k < grid.length; k++) {
             // checkLiberties
-            let liberties = checkLiberties(k, i)
+            let liberties: number = checkLiberties(k, i)
             // if none remove stone/group
             // if stone removed redraw = true
             if (liberties === 0) {
@@ -142,8 +144,8 @@ function mergeGroups(grp1, grp2) {
 
 console.log(grid)
 
-let turn = 1; // turn number
-let playing = true // true = black, false = white
+let turn: number = 1; // turn number
+let playing: boolean = true // true = black, false = white
 
 function getMousePos(canvas, e) {
     let rect = canvas.getBoundingClientRect()
