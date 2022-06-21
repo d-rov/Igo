@@ -77,6 +77,65 @@ function draw() {
     }
 }
 
+// this function is a mess and needs to be reworked
+// also tested
+function getSurrounding(stone, friends, enemies) {
+    let x, y = stone
+    let color = grid[x][y]
+
+    let vrtx
+    if ( x > 0 && y > 0 && grid[x - 1][y - 1] !== 0 && color === gird[x - 1][y - 1]) {
+        // friend found
+        vrtx = [x - 1, y - 1]
+        friends.add(vrtx)
+        // recursive call to check friends of new friend
+        getSurrounding(vrtx, friends, enemies)
+    }
+    if (x > 0 && y < 18 && grid[x - 1][y + 1] !== 0 && color === grid[x - 1][y + 1] ) {
+        // friend found
+        vrtx = [x - 1, y + 1]
+        friends.add(vrtx)
+        // recursive call to check friends of new friend
+        getSurrounding(vrtx, friends, enemies)
+    }
+    if (x < 18 && y > 0 && grid[x + 1][y - 1] !== 0 && color === grid[x + 1][y - 1]) {
+        // friend found
+        vrtx = [x + 1, y - 1]
+        friends.add(vrtx)
+        // recursive call to check friends of new friend
+        getSurrounding(vrtx, friends, enemies)
+    }
+    if (x < 18 && y < 18 && grid[x + 1][y + 1] !== 0 && color === grid[x + 1][y + 1]) {
+        // friend found
+        vrtx = [x + 1, y + 1]
+        friends.add(vrtx)
+        // recursive call to check friends of new friend
+        getSurrounding(vrtx, friends, enemies)
+    }
+    if ( x > 0 && y > 0 && grid[x - 1][y - 1] !== 0 && color !== gird[x - 1][y - 1]) {
+        // friend found
+        vrtx = [x - 1, y - 1]
+        enemies.add(vrtx)
+    }
+    if (x > 0 && y < 18 && grid[x - 1][y + 1] !== 0 && color !== grid[x - 1][y + 1] ) {
+        // friend found
+        vrtx = [x - 1, y + 1]
+        enemies.add(vrtx)
+    }
+    if (x < 18 && y > 0 && grid[x + 1][y - 1] !== 0 && color !== grid[x + 1][y - 1]) {
+        // friend found
+        vrtx = [x + 1, y - 1]
+        enemies.add(vrtx)
+    }
+    if (x < 18 && y < 18 && grid[x + 1][y + 1] !== 0 && color !== grid[x + 1][y + 1]) {
+        // friend found
+        vrtx = [x + 1, y + 1]
+        enemies.add(vrtx)
+    }
+
+    return
+}
+
 function checkLiberties(x, y) {
     // TODO:
     // fix the way I planned this method as it wont work for groups
@@ -84,7 +143,12 @@ function checkLiberties(x, y) {
 
     // take an X and Y pos and check if the stone has any liberties left
     let liberties = 0 // start with 0 and add liberties
-    let color = grid[x][y]
+    let friends = []
+    let enemies = []
+    let stone = [x, y]
+    let color = grid[x][y] // not sure this is necessary?
+
+    getSurrounding(stone, friends, enemies)
     // stone has enemy next to it remove a liberty
     // need to account for groups of stones. tricky?
 
@@ -115,31 +179,6 @@ function updateGrid(grid) {
         grid = gridCopy // replace grid with update
         draw()
     }
-}
-
-function checkForNeighbors(x, y) {
-    // check if a newly placed stone has any neighbors of SAME color
-    if ( x > 0 && y > 0 && grid[x - 1][y - 1] !== 0 && grid[x][y] === grid[x - 1][y - 1]) {
-        // neighbor found
-        // mergeGroups()
-    } else if (x > 0 && y < 18 && grid[x - 1][y + 1] !== 0 && grid[x][y] === grid[x - 1][y + 1] ) {
-        // neighbor found
-        // mergeGroups()
-    } else if (x < 18 && y > 0 && grid[x + 1][y - 1] !== 0 && grid[x][y] === grid[x + 1][y - 1]) {
-        // ...
-    } else if (x < 18 && y < 18 && grid[x + 1][y + 1] !== 0 && grid[x][y] === grid[x + 1][y + 1]) {
-        // ...
-    }
-}
-
-// TODO:
-// add inWhatGroup() helper func
-
-function mergeGroups(grp1, grp2) {
-    // create a newGrp
-    // make sure newGrp contains all members of grp1 + grp2
-    // remove grp1, grp2 from group lists
-    // add newGrp to group list
 }
 
 console.log(grid)
